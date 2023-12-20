@@ -2,6 +2,7 @@
 using TaskManagementSystem.Models;
 using TaskManagementSystem.Interfaces;
 using TaskManagementSystem.Repositories;
+using Microsoft.OpenApi.Models;
 
 // Initialize the WebApplication builder.
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +11,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c => { c.EnableAnnotations(); });
+builder.Services.AddSwaggerGen(c =>
+{
+    c.EnableAnnotations();
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Task Management API",
+        Version = "v1",
+        Description = "An API to perform task management operations",
+        Contact = new OpenApiContact
+        {
+            Name = "Muhammad Zafir Alvi",
+            Email = "muhammad.zafir.alvi.official@gmail.com"
+        }
+    });
+});
 
 // Configure the in-memory database for TaskManagerDbContext.
 // The following line adds the TaskManagerDbContext to the dependency injection container
