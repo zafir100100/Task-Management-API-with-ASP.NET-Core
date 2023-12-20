@@ -8,6 +8,7 @@ namespace OrderProcessingSystemDotnet.Models.Tables
     {
         // Unique identifier for the user task
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserTaskId { get; set; }
 
         // Title of the task

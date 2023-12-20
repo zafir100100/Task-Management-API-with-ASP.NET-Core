@@ -5,31 +5,39 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OrderProcessingSystemDotnet.Interfaces;
 using OrderProcessingSystemDotnet.Models;
 using OrderProcessingSystemDotnet.Models.Tables;
 
 namespace OrderProcessingSystemDotnet.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class UserTasksController : ControllerBase
     {
-        private readonly TaskManagerDbContext _context;
+        //private readonly TaskManagerDbContext _context;
+        private readonly IUserTaskService _userTaskService;
 
-        public UserTasksController(TaskManagerDbContext context)
+        //public UserTasksController(TaskManagerDbContext context)
+        //{
+        //    _context = context;
+        //}
+        public UserTasksController(IUserTaskService userTaskService)
         {
-            _context = context;
+            _userTaskService = userTaskService;
         }
 
         // GET: api/Products
-        [HttpGet]
+        [HttpGet("get-all-task")]
         public async Task<ActionResult<IEnumerable<UserTask>>> GetTasks()
         {
-          if (_context.UserTasks == null)
-          {
-              return NotFound();
-          }
-            return await _context.UserTasks.ToListAsync();
+            var response = await _userTaskService.GetTasks();
+            return StatusCode(response.StatusCode, response);
+            //if (_context.UserTasks == null)
+            //{
+            //    return NotFound();
+            //}
+            //  return await _context.UserTasks.ToListAsync();
         }
 
         //    // GET: api/Products/5

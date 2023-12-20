@@ -9,112 +9,149 @@ namespace OrderProcessingSystemDotnet.Repositories
     {
         private ResponseDto _responseDto = new();
         private readonly TaskManagerDbContext _context;
+
         public UserTaskRepository(TaskManagerDbContext context)
         {
             _context = context;
         }
+
+        // Method to get tasks without transactions and async
         public async Task<ResponseDto> GetTasks()
         {
-            if (_context.UserTasks == null)
+            try
             {
-                _responseDto.StatusCode = StatusCodes.Status404NotFound;
+                if (await _context.UserTasks.FirstOrDefaultAsync() == null)
+                {
+                    _responseDto.StatusCode = StatusCodes.Status404NotFound;
+                    return _responseDto;
+                }
+
+                _responseDto.StatusCode = StatusCodes.Status200OK;
+                _responseDto.Payload = await _context.UserTasks.ToListAsync();
+
                 return _responseDto;
             }
-            _responseDto.StatusCode = StatusCodes.Status200OK;
-            _responseDto.Payload = await _context.UserTasks.ToListAsync();
-            return _responseDto;
+            catch (Exception ex)
+            {
+                // Log or handle the exception as needed
+                _responseDto.StatusCode = StatusCodes.Status500InternalServerError;
+                _responseDto.Message = ex.Message;
+
+                return _responseDto;
+            }
         }
 
-        //public async Task<ResponseDto> GetCustomer(int id)
-        //{
-        //    if (_context.Customers == null)
-        //    {
-        //        _responseDto.StatusCode = StatusCodes.Status404NotFound;
-        //        return _responseDto;
-        //    }
-        //    var customer = await _context.Customers.FindAsync(id);
+        // Method to create a new task
+        public async Task<ResponseDto> CreateTask(UserTask newTask)
+        {
+            try
+            {
+                await _context.UserTasks.AddAsync(newTask);
+                await _context.SaveChangesAsync();
 
-        //    if (customer == null)
-        //    {
-        //        _responseDto.StatusCode = StatusCodes.Status404NotFound;
-        //        return _responseDto;
-        //    }
+                _responseDto.StatusCode = StatusCodes.Status201Created;
 
-        //    _responseDto.StatusCode = StatusCodes.Status200OK;
-        //    _responseDto.Payload = customer;
-        //    return _responseDto;
-        //}
+                return _responseDto;
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the exception as needed
+                _responseDto.StatusCode = StatusCodes.Status500InternalServerError;
+                _responseDto.Message = ex.Message;
 
-        //public async Task<ResponseDto> PutCustomer(int id, Customer customer)
-        //{
-        //    if (id != customer.Id)
-        //    {
-        //        _responseDto.StatusCode = StatusCodes.Status400BadRequest;
-        //        return _responseDto;
-        //    }
+                return _responseDto;
+            }
+        }
 
-        //    _context.Entry(customer).State = EntityState.Modified;
+        // Method to delete a task by ID
+        public async Task<ResponseDto> DeleteTask(int taskId)
+        {
+            try
+            {
+                var taskToDelete = await _context.UserTasks.FindAsync(taskId);
 
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!CustomerExists(id))
-        //        {
-        //            _responseDto.StatusCode = StatusCodes.Status404NotFound;
-        //            return _responseDto;
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+                if (taskToDelete == null)
+                {
+                    _responseDto.StatusCode = StatusCodes.Status404NotFound;
+                    return _responseDto;
+                }
 
-        //    _responseDto.StatusCode = StatusCodes.Status204NoContent;
-        //    return _responseDto;
-        //}
+                _context.UserTasks.Remove(taskToDelete);
+                await _context.SaveChangesAsync();
 
-        //public async Task<ResponseDto> PostCustomer(Customer customer)
-        //{
-        //    if (_context.Customers == null)
-        //    {
-        //        _responseDto.StatusCode = StatusCodes.Status400BadRequest;
-        //        _responseDto.Message = "Entity set 'OpsApiDbContext.Customers'  is null.";
-        //        return _responseDto;
-        //    }
-        //    _context.Customers.Add(customer);
-        //    await _context.SaveChangesAsync();
+                _responseDto.StatusCode = StatusCodes.Status204NoContent;
 
-        //    _responseDto.StatusCode = StatusCodes.Status201Created;
-        //    return _responseDto;
-        //}
+                return _responseDto;
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the exception as needed
+                _responseDto.StatusCode = StatusCodes.Status500InternalServerError;
+                _responseDto.Message = ex.Message;
 
-        //public async Task<ResponseDto> DeleteCustomer(int id)
-        //{
-        //    if (_context.Customers == null)
-        //    {
-        //        _responseDto.StatusCode = StatusCodes.Status404NotFound;
-        //        return _responseDto;
-        //    }
-        //    var customer = await _context.Customers.FindAsync(id);
-        //    if (customer == null)
-        //    {
-        //        _responseDto.StatusCode = StatusCodes.Status404NotFound;
-        //        return _responseDto;
-        //    }
+                return _responseDto;
+            }
+        }
 
-        //    _context.Customers.Remove(customer);
-        //    await _context.SaveChangesAsync();
+        // Method to update an existing task
+        public async Task<ResponseDto> UpdateTask(UserTask updatedTask)
+        {
+            try
+            {
+                var existingTask = await _context.UserTasks.FindAsync(updatedTask.UserTaskId);
+                if (existingTask == null)
+                {
+                    _responseDto.StatusCode = StatusCodes.Status404NotFound;
+                    return _responseDto;
+                }
 
-        //    _responseDto.StatusCode = StatusCodes.Status204NoContent;
-        //    return _responseDto;
-        //}
+                existingTask.Title = updatedTask.Title;
+                existingTask.Description = updatedTask.Description;
+                existingTask.DueDate = updatedTask.DueDate;
+                existingTask.Status = updatedTask.Status;
 
-        //private bool CustomerExists(int id)
-        //{
-        //    return (_context.Customers?.Any(e => e.Id == id)).GetValueOrDefault();
-        //}
+                await _context.SaveChangesAsync();
+
+                _responseDto.StatusCode = StatusCodes.Status200OK;
+
+                return _responseDto;
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the exception as needed
+                _responseDto.StatusCode = StatusCodes.Status500InternalServerError;
+                _responseDto.Message = ex.Message;
+
+                return _responseDto;
+            }
+        }
+
+        // Method to get a task by ID
+        public async Task<ResponseDto> GetTaskById(int taskId)
+        {
+            try
+            {
+                var task = await _context.UserTasks.FindAsync(taskId);
+
+                if (task == null)
+                {
+                    _responseDto.StatusCode = StatusCodes.Status404NotFound;
+                    return _responseDto;
+                }
+
+                _responseDto.StatusCode = StatusCodes.Status200OK;
+                _responseDto.Payload = task;
+
+                return _responseDto;
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the exception as needed
+                _responseDto.StatusCode = StatusCodes.Status500InternalServerError;
+                _responseDto.Message = ex.Message;
+
+                return _responseDto;
+            }
+        }
     }
 }
