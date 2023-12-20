@@ -15,118 +15,79 @@ namespace OrderProcessingSystemDotnet.Controllers
     [ApiController]
     public class UserTasksController : ControllerBase
     {
-        //private readonly TaskManagerDbContext _context;
+
         private readonly IUserTaskService _userTaskService;
 
-        //public UserTasksController(TaskManagerDbContext context)
-        //{
-        //    _context = context;
-        //}
         public UserTasksController(IUserTaskService userTaskService)
         {
             _userTaskService = userTaskService;
         }
 
-        // GET: api/Products
+        // GET: api/UserTasks/get-all-task
         [HttpGet("get-all-task")]
         public async Task<ActionResult<IEnumerable<UserTask>>> GetTasks()
         {
+            // Fetch tasks using the injected service
             var response = await _userTaskService.GetTasks();
+
+            // Return the response with the appropriate status code
             return StatusCode(response.StatusCode, response);
-            //if (_context.UserTasks == null)
-            //{
-            //    return NotFound();
-            //}
-            //  return await _context.UserTasks.ToListAsync();
         }
 
-        //    // GET: api/Products/5
-        //    [HttpGet("{id}")]
-        //    public async Task<ActionResult<Product>> GetProduct(int id)
-        //    {
-        //      if (_context.Products == null)
-        //      {
-        //          return NotFound();
-        //      }
-        //        var product = await _context.Products.FindAsync(id);
+        // GET: api/UserTasks/get-task?id={id}
+        [HttpGet("get-task")]
+        public async Task<ActionResult<ResponseDto>> GetTask([FromBody] int id)
+        {
+            // TODO: Implement the logic to get a task by ID
+            // Documentation: Retrieves a task by the specified ID from the database.
 
-        //        if (product == null)
-        //        {
-        //            return NotFound();
-        //        }
+            // Sample code (replace with actual implementation)
+            var response = await _userTaskService.GetTaskById(id);
 
-        //        return product;
-        //    }
+            // Return the response with the appropriate status code
+            return StatusCode(response.StatusCode, response);
+        }
 
-        //    // PUT: api/Products/5
-        //    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //    [HttpPut("{id}")]
-        //    public async Task<IActionResult> PutProduct(int id, Product product)
-        //    {
-        //        if (id != product.Id)
-        //        {
-        //            return BadRequest();
-        //        }
+        // PUT: api/UserTasks/put-task?id={id}
+        [HttpPut("put-task")]
+        public async Task<ActionResult<ResponseDto>> PutTask([FromBody] UserTask task)
+        {
+            // TODO: Implement the logic to update a task by ID
+            // Documentation: Updates an existing task with the specified ID in the database.
 
-        //        _context.Entry(product).State = EntityState.Modified;
+            // Sample code (replace with actual implementation)
+            var response = await _userTaskService.UpdateTask(task);
 
-        //        try
-        //        {
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!ProductExists(id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
+            // Return the response with the appropriate status code
+            return StatusCode(response.StatusCode, response);
+        }
 
-        //        return NoContent();
-        //    }
+        // POST: api/UserTasks/post-task
+        [HttpPost("post-task")]
+        public async Task<ActionResult<ResponseDto>> PostTask([FromBody] UserTask task)
+        {
+            // TODO: Implement the logic to create a new task
+            // Documentation: Creates a new task with the provided details in the database.
 
-        //    // POST: api/Products
-        //    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //    [HttpPost]
-        //    public async Task<ActionResult<Product>> PostProduct(Product product)
-        //    {
-        //      if (_context.Products == null)
-        //      {
-        //          return Problem("Entity set 'OpsApiDbContext.Products'  is null.");
-        //      }
-        //        _context.Products.Add(product);
-        //        await _context.SaveChangesAsync();
+            // Sample code (replace with actual implementation)
+            var response = await _userTaskService.CreateTask(task);
 
-        //        return CreatedAtAction("GetProduct", new { id = product.Id }, product);
-        //    }
+            // Return the response with the appropriate status code
+            return StatusCode(response.StatusCode, response);
+        }
 
-        //    // DELETE: api/Products/5
-        //    [HttpDelete("{id}")]
-        //    public async Task<IActionResult> DeleteProduct(int id)
-        //    {
-        //        if (_context.Products == null)
-        //        {
-        //            return NotFound();
-        //        }
-        //        var product = await _context.Products.FindAsync(id);
-        //        if (product == null)
-        //        {
-        //            return NotFound();
-        //        }
+        // DELETE: api/UserTasks/delete-task?id={id}
+        [HttpDelete("delete-task")]
+        public async Task<ActionResult<ResponseDto>> DeleteTask([FromBody] int id)
+        {
+            // TODO: Implement the logic to delete a task by ID
+            // Documentation: Deletes an existing task with the specified ID from the database.
 
-        //        _context.Products.Remove(product);
-        //        await _context.SaveChangesAsync();
+            // Sample code (replace with actual implementation)
+            var response = await _userTaskService.DeleteTask(id);
 
-        //        return NoContent();
-        //    }
-
-        //    private bool ProductExists(int id)
-        //    {
-        //        return (_context.Products?.Any(e => e.Id == id)).GetValueOrDefault();
-        //    }
+            // Return the response with the appropriate status code
+            return StatusCode(response.StatusCode, response);
+        }
     }
 }
