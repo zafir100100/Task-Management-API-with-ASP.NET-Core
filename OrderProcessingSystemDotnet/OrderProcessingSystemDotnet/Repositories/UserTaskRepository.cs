@@ -4,7 +4,6 @@ using OrderProcessingSystemDotnet.Interfaces;
 using OrderProcessingSystemDotnet.Models;
 using OrderProcessingSystemDotnet.Models.DTOs;
 using OrderProcessingSystemDotnet.Models.Tables;
-using System.Threading.Tasks;
 
 namespace OrderProcessingSystemDotnet.Repositories
 {

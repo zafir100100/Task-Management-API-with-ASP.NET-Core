@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using OrderProcessingSystemDotnet.Interfaces;
-using OrderProcessingSystemDotnet.Models;
 using OrderProcessingSystemDotnet.Models.DTOs;
 using OrderProcessingSystemDotnet.Models.Tables;
 
