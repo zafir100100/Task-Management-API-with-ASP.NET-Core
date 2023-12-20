@@ -10,6 +10,5 @@ namespace OrderProcessingSystemDotnet.Models
 
         }
         public DbSet<UserTask> UserTasks { get; set; }
-        public DbSet<Customer> Customers { get; set; }
     }
 }

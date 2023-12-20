@@ -13,7 +13,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<TaskManagerDbContext>(options => options.UseInMemoryDatabase("OpsDb"));
-builder.Services.AddTransient<ICustomerService, CustomerRepository>();
 builder.Services.AddTransient<IUserTaskService, UserTaskRepository>();
 
 var app = builder.Build();
