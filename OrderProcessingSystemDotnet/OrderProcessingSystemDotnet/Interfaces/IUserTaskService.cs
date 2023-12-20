@@ -7,8 +7,8 @@ namespace OrderProcessingSystemDotnet.Interfaces
     {
         public Task<ResponseDto> GetTasks();
         public Task<ResponseDto> CreateTask(UserTask newTask);
-        public Task<ResponseDto> DeleteTask(int taskId);
+        public Task<ResponseDto> DeleteTask(uint taskId);
         public Task<ResponseDto> UpdateTask(UserTask updatedTask);
-        public Task<ResponseDto> GetTaskById(int taskId);
+        public Task<ResponseDto> GetTaskById(uint taskId);
     }
 }

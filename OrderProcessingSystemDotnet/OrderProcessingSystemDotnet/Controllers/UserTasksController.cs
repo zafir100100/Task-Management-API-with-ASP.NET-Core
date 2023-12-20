@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OrderProcessingSystemDotnet.Interfaces;
 using OrderProcessingSystemDotnet.Models;
+using OrderProcessingSystemDotnet.Models.DTOs;
 using OrderProcessingSystemDotnet.Models.Tables;
 
 namespace OrderProcessingSystemDotnet.Controllers
@@ -30,9 +31,9 @@ namespace OrderProcessingSystemDotnet.Controllers
         }
 
         [HttpPost("get-task-by-id")]
-        public async Task<IActionResult> GetTask([FromBody] int id)
+        public async Task<IActionResult> GetTask([FromBody] GetTaskDto input)
         {
-            var response = await _userTaskService.GetTaskById(id);
+            var response = await _userTaskService.GetTaskById(input.Id);
             return StatusCode(response.StatusCode, response);
         }
 
@@ -51,9 +52,9 @@ namespace OrderProcessingSystemDotnet.Controllers
         }
 
         [HttpDelete("delete-task-by-id")]
-        public async Task<IActionResult> DeleteTask([FromBody] int id)
+        public async Task<IActionResult> DeleteTask([FromBody] DeleteTaskRequestDto input)
         {
-            var response = await _userTaskService.DeleteTask(id);
+            var response = await _userTaskService.DeleteTask(input.Id);
             return StatusCode(response.StatusCode, response);
         }
     }

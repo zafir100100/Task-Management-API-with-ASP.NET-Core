@@ -2,7 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using OrderProcessingSystemDotnet.Interfaces;
 using OrderProcessingSystemDotnet.Models;
+using OrderProcessingSystemDotnet.Models.DTOs;
 using OrderProcessingSystemDotnet.Models.Tables;
+using System.Threading.Tasks;
 
 namespace OrderProcessingSystemDotnet.Repositories
 {
@@ -131,10 +133,20 @@ namespace OrderProcessingSystemDotnet.Repositories
         /// <returns>
         /// A Task object representing the asynchronous operation, containing a ResponseDto indicating the result of the deletion.
         /// </returns>
-        public async Task<ResponseDto> DeleteTask(int taskId)
+        public async Task<ResponseDto> DeleteTask(uint taskId)
         {
             try
             {
+                // check if task id is invalid
+                if (taskId == 0)
+                {
+                    _responseDto.Message = "Invalid task id. Please provide a valid task id for the desired operation";
+                    _responseDto.StatusCode = StatusCodes.Status400BadRequest;
+
+                    // Return the ResponseDto with a 401 status code.
+                    return _responseDto;
+                }
+
                 // Find the task to delete based on the provided taskId.
                 var taskToDelete = await _context.UserTasks.FindAsync(taskId);
 
@@ -190,7 +202,17 @@ namespace OrderProcessingSystemDotnet.Repositories
         public async Task<ResponseDto> UpdateTask(UserTask updatedTask)
         {
             try
-            {
+            {   
+                // check if task id is invalid
+                if (updatedTask.Id == 0)
+                {
+                    _responseDto.Message = "Invalid task id. Please provide a valid task id for the desired operation";
+                    _responseDto.StatusCode = StatusCodes.Status400BadRequest;
+
+                    // Return the ResponseDto with a 401 status code.
+                    return _responseDto;
+                }
+
                 // Find the existing task in the database based on the provided taskId.
                 var existingTask = await _context.UserTasks.FindAsync(updatedTask.Id);
 
@@ -248,10 +270,20 @@ namespace OrderProcessingSystemDotnet.Repositories
         /// <returns>
         /// A Task object representing the asynchronous operation, containing a ResponseDto with details of the retrieved task.
         /// </returns>
-        public async Task<ResponseDto> GetTaskById(int taskId)
+        public async Task<ResponseDto> GetTaskById(uint taskId)
         {
             try
-            {
+            {   
+                // check if task id is invalid
+                if (taskId == 0)
+                {
+                    _responseDto.Message = "Invalid task id. Please provide a valid task id for the desired operation";
+                    _responseDto.StatusCode = StatusCodes.Status400BadRequest;
+
+                    // Return the ResponseDto with a 401 status code.
+                    return _responseDto;
+                }
+
                 // Find the task in the database based on the provided taskId.
                 var task = await _context.UserTasks.FindAsync(taskId);
 

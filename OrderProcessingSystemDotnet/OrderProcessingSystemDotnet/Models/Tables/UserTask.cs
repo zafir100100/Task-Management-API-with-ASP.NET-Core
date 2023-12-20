@@ -9,7 +9,7 @@ namespace OrderProcessingSystemDotnet.Models.Tables
         // Unique identifier for the user task
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public uint Id { get; set; }
 
         // Title of the task
         [Required]
@@ -25,10 +25,6 @@ namespace OrderProcessingSystemDotnet.Models.Tables
         // Status of the task (e.g., pending, completed)
         [EnumDataType(typeof(TaskStatus))]
         public TaskStatus Status { get; set; }
-
-        // Foreign key for the User who owns the task
-        [Required]
-        public int UserId { get; set; }
     }
 
     // Enum representing the status of a task
