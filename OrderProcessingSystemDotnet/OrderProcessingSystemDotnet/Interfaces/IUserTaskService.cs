@@ -1,4 +1,4 @@
-﻿using OrderProcessingSystemDotnet.Models;
+﻿using OrderProcessingSystemDotnet.Models.DTOs;
 using OrderProcessingSystemDotnet.Models.Tables;
 
 namespace OrderProcessingSystemDotnet.Interfaces
