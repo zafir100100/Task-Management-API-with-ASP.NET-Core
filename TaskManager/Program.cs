@@ -1,4 +1,7 @@
 
+using TaskManager.Repositories;
+using TaskManager.Services;
+
 namespace TaskManager
 {
     public class Program
@@ -13,6 +16,8 @@ namespace TaskManager
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddTransient<IUserTaskService, UserTaskRepository>();
 
             var app = builder.Build();
 
