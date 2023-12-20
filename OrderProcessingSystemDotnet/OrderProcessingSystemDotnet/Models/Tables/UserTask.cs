@@ -29,10 +29,6 @@ namespace OrderProcessingSystemDotnet.Models.Tables
         // Foreign key for the User who owns the task
         [Required]
         public int UserId { get; set; }
-
-        //// Navigation property to represent the associated user
-        //[ForeignKey("UserId")]
-        //public User User { get; set; }
     }
 
     // Enum representing the status of a task
