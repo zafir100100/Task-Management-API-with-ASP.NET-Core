@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OrderProcessingSystemDotnet.Interfaces;
 using OrderProcessingSystemDotnet.Models;
 using OrderProcessingSystemDotnet.Models.Tables;
@@ -20,44 +21,71 @@ namespace OrderProcessingSystemDotnet.Repositories
         {
             try
             {
-                if (await _context.UserTasks.FirstOrDefaultAsync() == null)
+                List<UserTask> tasks = await _context.UserTasks.OrderBy(i => i.Id).ToListAsync();
+                if (tasks.Count > 0)
                 {
+                    _responseDto.Message = "Displaying the list of " + tasks.Count + " task(s).";
+                    _responseDto.Payload = new
+                    {
+                        Output = tasks,
+                        RowCount = tasks.Count
+                    };
+                    _responseDto.StatusCode = StatusCodes.Status200OK;
+                    return _responseDto;
+                }
+                else
+                {
+                    _responseDto.Message = "No task found. Please create one to view.";
                     _responseDto.StatusCode = StatusCodes.Status404NotFound;
                     return _responseDto;
                 }
-
-                _responseDto.StatusCode = StatusCodes.Status200OK;
-                _responseDto.Payload = await _context.UserTasks.ToListAsync();
-
-                return _responseDto;
             }
             catch (Exception ex)
             {
-                // Log or handle the exception as needed
+                _responseDto.Message = "Unable to fetch task list. Something went wrong. Please try again later.";
                 _responseDto.StatusCode = StatusCodes.Status500InternalServerError;
-                _responseDto.Message = ex.Message;
-
+                _responseDto.Payload = new
+                {
+                    ex.StackTrace,
+                    ex.Message,
+                    ex.InnerException,
+                    ex.Source,
+                    ex.Data
+                };
                 return _responseDto;
             }
         }
 
         // Method to create a new task
-        public async Task<ResponseDto> CreateTask(UserTask newTask)
+        public async Task<ResponseDto> CreateTask([FromBody] UserTask newTask)
         {
             try
             {
-                await _context.UserTasks.AddAsync(newTask);
+                // Add the new task to the database and save changes
+                _context.UserTasks.Add(newTask);
                 await _context.SaveChangesAsync();
 
+                // Set the response details for a successful creation
                 _responseDto.StatusCode = StatusCodes.Status201Created;
+                _responseDto.Message = "Task created successfully.";
 
                 return _responseDto;
             }
             catch (Exception ex)
             {
-                // Log or handle the exception as needed
+                // Handle exceptions that may occur during the creation process
                 _responseDto.StatusCode = StatusCodes.Status500InternalServerError;
-                _responseDto.Message = ex.Message;
+                _responseDto.Message = "Task creation failed. Something went wrong. Please try again later.";
+
+                // Additional information about the exception for debugging or logging
+                _responseDto.Payload = new
+                {
+                    ex.StackTrace,
+                    ex.Message,
+                    ex.InnerException,
+                    ex.Source,
+                    ex.Data
+                };
 
                 return _responseDto;
             }
@@ -72,6 +100,7 @@ namespace OrderProcessingSystemDotnet.Repositories
 
                 if (taskToDelete == null)
                 {
+                    _responseDto.Message = "No task found for the given criteria.";
                     _responseDto.StatusCode = StatusCodes.Status404NotFound;
                     return _responseDto;
                 }
@@ -79,16 +108,23 @@ namespace OrderProcessingSystemDotnet.Repositories
                 _context.UserTasks.Remove(taskToDelete);
                 await _context.SaveChangesAsync();
 
-                _responseDto.StatusCode = StatusCodes.Status204NoContent;
-
+                _responseDto.Message = "Task deletion successful";
+                _responseDto.StatusCode = StatusCodes.Status200OK;
                 return _responseDto;
             }
             catch (Exception ex)
             {
                 // Log or handle the exception as needed
                 _responseDto.StatusCode = StatusCodes.Status500InternalServerError;
-                _responseDto.Message = ex.Message;
-
+                _responseDto.Message = "Task deletion failed. Something went wrong. Please try again later.";
+                _responseDto.Payload = new
+                {
+                    ex.StackTrace,
+                    ex.Message,
+                    ex.InnerException,
+                    ex.Source,
+                    ex.Data
+                };
                 return _responseDto;
             }
         }
@@ -98,9 +134,10 @@ namespace OrderProcessingSystemDotnet.Repositories
         {
             try
             {
-                var existingTask = await _context.UserTasks.FindAsync(updatedTask.UserTaskId);
+                var existingTask = await _context.UserTasks.FindAsync(updatedTask.Id);
                 if (existingTask == null)
                 {
+                    _responseDto.Message = "No task found for the given criteria.";
                     _responseDto.StatusCode = StatusCodes.Status404NotFound;
                     return _responseDto;
                 }
@@ -112,6 +149,7 @@ namespace OrderProcessingSystemDotnet.Repositories
 
                 await _context.SaveChangesAsync();
 
+                _responseDto.Message = "Task update successful";
                 _responseDto.StatusCode = StatusCodes.Status200OK;
 
                 return _responseDto;
@@ -120,8 +158,15 @@ namespace OrderProcessingSystemDotnet.Repositories
             {
                 // Log or handle the exception as needed
                 _responseDto.StatusCode = StatusCodes.Status500InternalServerError;
-                _responseDto.Message = ex.Message;
-
+                _responseDto.Message = "Task updated failed. Something went wrong. Please try again later.";
+                _responseDto.Payload = new
+                {
+                    ex.StackTrace,
+                    ex.Message,
+                    ex.InnerException,
+                    ex.Source,
+                    ex.Data
+                };
                 return _responseDto;
             }
         }
@@ -135,21 +180,32 @@ namespace OrderProcessingSystemDotnet.Repositories
 
                 if (task == null)
                 {
+                    _responseDto.Message = "No task found for given criteria.";
                     _responseDto.StatusCode = StatusCodes.Status404NotFound;
                     return _responseDto;
                 }
 
+                _responseDto.Message = "Fetching task successful";
                 _responseDto.StatusCode = StatusCodes.Status200OK;
-                _responseDto.Payload = task;
+                _responseDto.Payload = new
+                {
+                    Output = task
+                };
 
                 return _responseDto;
             }
             catch (Exception ex)
             {
-                // Log or handle the exception as needed
                 _responseDto.StatusCode = StatusCodes.Status500InternalServerError;
-                _responseDto.Message = ex.Message;
-
+                _responseDto.Message = "Task retrieval failed. Something went wrong. Please try again later.";
+                _responseDto.Payload = new
+                {
+                    ex.StackTrace,
+                    ex.Message,
+                    ex.InnerException,
+                    ex.Source,
+                    ex.Data
+                };
                 return _responseDto;
             }
         }
