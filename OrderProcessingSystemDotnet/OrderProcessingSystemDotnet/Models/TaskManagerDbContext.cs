@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaskManager.Models.Tables;
+using OrderProcessingSystemDotnet.Models.Tables;
 
-namespace TaskManager.Models
+namespace OrderProcessingSystemDotnet.Models
 {
     public class TaskManagerDbContext : DbContext
     {
@@ -10,5 +10,6 @@ namespace TaskManager.Models
 
         }
         public DbSet<UserTask> UserTasks { get; set; }
+        public DbSet<Customer> Customers { get; set; }
     }
 }

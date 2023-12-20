@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace TaskManager.Models
+namespace OrderProcessingSystemDotnet.Models
 {
     public class ResponseDto
     {

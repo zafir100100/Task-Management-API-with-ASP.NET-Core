@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TaskManager.Models;
-using TaskManager.Models.Tables;
+using OrderProcessingSystemDotnet.Models;
+using OrderProcessingSystemDotnet.Models.Tables;
 
-namespace TaskManager.Controllers
+namespace OrderProcessingSystemDotnet.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

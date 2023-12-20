@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaskManager.Models;
-using TaskManager.Services;
+using OrderProcessingSystemDotnet.Interfaces;
+using OrderProcessingSystemDotnet.Models;
+using OrderProcessingSystemDotnet.Models.Tables;
 
-namespace TaskManager.Repositories
+namespace OrderProcessingSystemDotnet.Repositories
 {
     public class UserTaskRepository : IUserTaskService
     {
