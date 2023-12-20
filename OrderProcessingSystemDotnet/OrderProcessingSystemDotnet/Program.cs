@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OrderProcessingSystemDotnet.Models;
-using OrderProcessingSystemDotnet.Interfaces;
-using OrderProcessingSystemDotnet.Repositories;
+using TaskManagementSystem.Models;
+using TaskManagementSystem.Interfaces;
+using TaskManagementSystem.Repositories;
 
 // Initialize the WebApplication builder.
 var builder = WebApplication.CreateBuilder(args);

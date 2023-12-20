@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OrderProcessingSystemDotnet.Models.Tables;
+using TaskManagementSystem.Models.Tables;
 
-namespace OrderProcessingSystemDotnet.Models
+namespace TaskManagementSystem.Models
 {
     /// <summary>
     /// Represents the database context for the Task Manager application.

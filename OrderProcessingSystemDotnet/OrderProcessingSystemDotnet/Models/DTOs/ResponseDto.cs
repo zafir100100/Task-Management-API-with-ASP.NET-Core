@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace OrderProcessingSystemDotnet.Models.DTOs
+namespace TaskManagementSystem.Models.DTOs
 {
     /// <summary>
     /// Represents a standardized response format for API endpoints.

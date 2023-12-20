@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OrderProcessingSystemDotnet.Models.DTOs
+namespace TaskManagementSystem.Models.DTOs
 {
     // DTO for the delete task request
     public class DeleteTaskRequestDto

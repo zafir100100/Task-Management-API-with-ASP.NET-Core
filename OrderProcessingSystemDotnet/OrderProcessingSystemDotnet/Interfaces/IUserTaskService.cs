@@ -1,7 +1,7 @@
-﻿using OrderProcessingSystemDotnet.Models.DTOs;
-using OrderProcessingSystemDotnet.Models.Tables;
+﻿using TaskManagementSystem.Models.DTOs;
+using TaskManagementSystem.Models.Tables;
 
-namespace OrderProcessingSystemDotnet.Interfaces
+namespace TaskManagementSystem.Interfaces
 {
     /// <summary>
     /// Represents the interface for managing user tasks in the Task Manager application.

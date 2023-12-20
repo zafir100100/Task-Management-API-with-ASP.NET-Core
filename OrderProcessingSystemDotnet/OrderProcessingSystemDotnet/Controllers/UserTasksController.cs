@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using OrderProcessingSystemDotnet.Interfaces;
-using OrderProcessingSystemDotnet.Models.DTOs;
-using OrderProcessingSystemDotnet.Models.Tables;
+using TaskManagementSystem.Interfaces;
+using TaskManagementSystem.Models.DTOs;
+using TaskManagementSystem.Models.Tables;
 
-namespace OrderProcessingSystemDotnet.Controllers
+namespace TaskManagementSystem.Controllers
 {
     /// <summary>
     /// Controller for managing user tasks through API endpoints.

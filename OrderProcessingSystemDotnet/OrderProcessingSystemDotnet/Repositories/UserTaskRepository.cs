@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using OrderProcessingSystemDotnet.Interfaces;
-using OrderProcessingSystemDotnet.Models;
-using OrderProcessingSystemDotnet.Models.DTOs;
-using OrderProcessingSystemDotnet.Models.Tables;
+using TaskManagementSystem.Interfaces;
+using TaskManagementSystem.Models;
+using TaskManagementSystem.Models.DTOs;
+using TaskManagementSystem.Models.Tables;
 
-namespace OrderProcessingSystemDotnet.Repositories
+namespace TaskManagementSystem.Repositories
 {
     /// <summary>
     /// Repository for managing UserTask operations.

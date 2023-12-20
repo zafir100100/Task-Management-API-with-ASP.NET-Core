@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OrderProcessingSystemDotnet.Models.DTOs
+namespace TaskManagementSystem.Models.DTOs
 {
     // DTO for the get task request
     public class GetTaskDto

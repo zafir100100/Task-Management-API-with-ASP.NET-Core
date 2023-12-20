@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace OrderProcessingSystemDotnet.Models.Tables
+namespace TaskManagementSystem.Models.Tables
 {
     // UserTask model representing a task in the Task Management System
     public class UserTask
