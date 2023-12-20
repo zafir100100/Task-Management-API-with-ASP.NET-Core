@@ -4,9 +4,9 @@ namespace OrderProcessingSystemDotnet.Models
 {
     public class ResponseDto
     {
-        public int StatusCode { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? Message { get; set; } = null;
+        public int StatusCode { get; set; } = 0;
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public object? Payload { get; set; } = null;
     }
